@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Room 101 - Cast Pairing</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    h1 { 
+      font-size: 96px; 
+      margin: 40px;
+      font-weight: 700;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    
+    .subtitle {
+      font-size: 48px;
+      margin: 20px;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+    
+    #qr-container {
+      background: white;
+      padding: 50px;
+      border-radius: 30px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+      margin: 40px;
+      transition: transform 0.3s ease;
+    }
+    
+    #qr-container:hover {
+      transform: scale(1.02);
+    }
+    
+    #qr {
+      display: block;
+      max-width: 400px;
+      max-height: 400px;
+      width: 100%;
+      height: auto;
+    }
+    
+    #status {
+      font-size: 32px;
+      margin: 30px;
+      padding: 20px 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .loading {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    
+    .error {
+      background: rgba(255, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Room <span id="room">101</span></h1>
+  <p class="subtitle">📱 Scan to Cast</p>
+  
+  <div id="qr-container">
+    <img id="qr" alt="QR Code" />
+  </div>
+  
+  <p id="status" class="loading">Loading...</p>
+  
+  <script>
+    const ROOM = '101';
+    
+    // Use router's IP on TV VLAN to reach API server
+    const API_URL = `http://192.168.1.1:3000/api/rooms/${ROOM}/pairing-token`;
+    
+    async function refreshQR() {
+      console.log('🔄 Refreshing QR code...');
+      
+      try {
+        const res = await fetch(API_URL, { method: 'POST' });
+        
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        
+        const data = await res.json();
+        
+        document.getElementById('room').textContent = data.room;
+        document.getElementById('qr').src = data.qr_image;
+        
+        const expiresAt = new Date(data.expires_at);
+        const expiresTime = expiresAt.toLocaleTimeString('en-US', { 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        });
+        
+        const statusEl = document.getElementById('status');
+        statusEl.textContent = `✅ Valid until ${expiresTime}`;
+        statusEl.className = '';
+        
+        console.log('✅ QR code refreshed');
+        console.log('   Expires:', expiresTime);
+        
+      } catch (error) {
+        console.error('❌ Error loading QR:', error);
+        
+        const statusEl = document.getElementById('status');
+        statusEl.textContent = '❌ Error loading QR code';
+        statusEl.className = 'error';
+      }
+    }
+    
+    // Initial load
+    refreshQR();
+    
+    // Refresh every 15 minutes (before token expires)
+    setInterval(refreshQR, 15 * 60 * 1000);
+    
+    // Also refresh every 5 minutes for peace of mind
+    setInterval(refreshQR, 5 * 60 * 1000);
+  </script>
+</body>
+</html>

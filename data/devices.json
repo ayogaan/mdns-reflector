@@ -1,16 +1,37 @@
 [
   {
-    "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "friendly_name": "Living Room TV",
-    "ip": "192.168.30.101",
-    "last_seen": "2025-12-08T14:30:45.123Z",
+    "uuid": "1d8c974e-96b9-5414-1719-4a5cff1fa944",
+    "friendly_name": "B866V2F",
+    "ip": "192.168.25.94",
+    "last_seen": "2025-12-09T07:16:39.507Z",
     "room": null
   },
   {
-    "uuid": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
-    "friendly_name": "Bedroom TV",
-    "ip": "192.168.30.102",
-    "last_seen": "2025-12-08T14:30:47.456Z",
+    "uuid": "c2108ea7-c8a0-9a4d-c1a0-3348b57a2826",
+    "friendly_name": "5214",
+    "ip": "192.168.25.50",
+    "last_seen": "2025-12-09T07:16:02.550Z",
+    "room": null
+  },
+  {
+    "uuid": "c92d8e41-86ce-1a3e-50a6-4df365ad0265",
+    "friendly_name": "Family Room TV",
+    "ip": "192.168.25.14",
+    "last_seen": "2025-12-09T02:41:00.101Z",
+    "room": null
+  },
+  {
+    "uuid": "767d596a-232c-3cce-f779-6d708dc1c6fc",
+    "friendly_name": "DEV-1",
+    "ip": "192.168.25.60",
+    "last_seen": "2025-12-09T03:06:16.117Z",
+    "room": null
+  },
+  {
+    "uuid": "4ae6d257-83eb-c599-03c3-0f61dd075d39",
+    "friendly_name": "GoogleTV4796",
+    "ip": "192.168.25.179",
+    "last_seen": "2025-12-09T04:05:37.382Z",
     "room": null
   }
 ]
