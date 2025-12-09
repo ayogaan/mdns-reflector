@@ -35,7 +35,7 @@ app.post('/api/rooms/:room/pairing-token', async (req, res) => {
   await fs.writeFile(tokensFile, JSON.stringify(tokens, null, 2));
   
   // Use the router's IP on guest VLAN for pairing URL
-  const pairingURL = `http://192.168.20.1:3000/pair?token=${token}`;
+  const pairingURL = `http://192.168.1.1:3000/pair?token=${token}`;
   const qrImage = await QRCode.toDataURL(pairingURL);
   
   console.log(`   ✅ Token: ${token}`);
@@ -197,7 +197,7 @@ const PORT = 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log('\n✅ Cast Proxy API Server Started');
   console.log(`📡 Listening on http://0.0.0.0:${PORT}`);
-  console.log(`🔗 Guest pairing: http://192.168.20.1:${PORT}/pair`);
-  console.log(`📺 TV interface: http://192.168.30.1:${PORT}/tv-app/`);
+  console.log(`🔗 Guest pairing: http://192.168.1.1:${PORT}/pair`);
+  console.log(`📺 TV interface: http://192.168.2.1:${PORT}/tv-app/`);
   console.log('\n');
 });
